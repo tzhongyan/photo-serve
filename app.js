@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const multer = require('multer');
 const crypto = require('crypto');
@@ -34,9 +36,21 @@ app.use('/', express.static(__dirname + '/view/'));
  * Handling files uploaded to server
  */
 app.post('/photo', upload.single('photo'), (req, res, next) => {
-    // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
-    res.end('https://pic.tzhongyan.com/photo/' + req.file.filename);
+
+    const Recaptcha = require('express-recaptcha');
+    
+    const recaptcha = new Recaptcha(
+        process.env.SITE_KEY, 
+        process.env.SECRET_KEY
+    );
+    recaptcha.verify(req, function(error, data){
+        if(!error) {
+            res.end('https://pic.tzhongyan.com/photo/' + req.file.filename);
+        } else {
+            res.status(417);
+            res.send('Recaptcha failed');
+        }
+    });
 });
 
 /**
