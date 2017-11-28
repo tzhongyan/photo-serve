@@ -17,11 +17,20 @@
     <h1>Photo upload</h1>
     <p>You type it we post it photo edition.</p>
     <form ref='uploadForm' method='post' action='/photo' encType='multipart/form-data'>
-        <input type='file' name='photo' accept='image/*' value='' />
+        <div class="form-group">
+            <label for='photo'>Upload your photo: </label><br />
+            <input type='file' class='form-control-file' id='photo' name='photo' accept='image/*' value='' />
+        </div>
+
+        
         <br />
         <div class="g-recaptcha" data-sitekey="6LeTuzoUAAAAAF7uVIuLjsEZVEvehEnjoyBGL3FO"></div>
-        <input type='submit' value='Upload' />
+        
+        <input type='submit' class='btn btn-primary' value='Upload' />
+
     </form>
+
+    <p>&copy;tzhongyan, <a href='https://github.com/tzhongyan/photo-serve' target='_blank'>source code</a>.</p>
     </div>
 </body>
 </html>
