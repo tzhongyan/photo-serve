@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
                 raw.toString('hex')
                     + Date.now()
                     + '.'
-                    + mime.extension(file.mimetype)
+                    + mime.extension(file.mimetype).toLowerCase()
             );
         });
     },
@@ -26,19 +26,23 @@ const upload = multer({storage: storage});
 let app = express();
 
 /**
- * Photo upload to server
+ * Showing static view file
+ */
+app.use('/', express.static(__dirname + '/view/'));
+
+/**
+ * Handling files uploaded to server
  */
 app.post('/photo', upload.single('photo'), (req, res, next) => {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
-    res.end('photo/' + req.file.filename);
+    res.end('https://pic.tzhongyan.com/photo/' + req.file.filename);
 });
 
 /**
- * Serving the uploaded photo
+ * Serving the uploaded file
  */
 app.use('/photo', express.static(__dirname + '/photos'));
-
 
 app.listen(5000, () => {
     console.log('Working on port 5000');
